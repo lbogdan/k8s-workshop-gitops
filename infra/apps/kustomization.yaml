@@ -5,3 +5,4 @@ resources:
   - calico.yaml
   - kubelet-csr-approver.yaml
   - metrics-server.yaml
+  - cert-manager.yaml
