@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - calico.yaml
   - kubelet-csr-approver.yaml
+  - metrics-server.yaml
