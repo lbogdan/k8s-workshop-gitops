@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: calico
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: infra/calico
+    repoURL: git@github.com:lbogdan/k8s-workshop-gitops.git
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
