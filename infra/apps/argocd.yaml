@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    chart: argo-cd
+    helm:
+      values: |-
+        global:
+          domain: argocd.workshop.jsleague.ro
+
+        dex:
+          enabled: false
+
+        notifications:
+          enabled: false
+
+        server:
+          ingress:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+            ingressClassName: nginx
+            tls: true
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 7.6.1
+  syncPolicy:
+    syncOptions:
+    - ServerSideApply=true
