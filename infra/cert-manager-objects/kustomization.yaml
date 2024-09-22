@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
   - clusterissuer.yaml
+  - sealedsecret-letsencrypt.yaml
