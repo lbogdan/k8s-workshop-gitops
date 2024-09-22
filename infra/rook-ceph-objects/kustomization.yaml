@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
   - cephcluster.yaml
+  - cephblockpool.yaml
+  - storageclass.yaml
+  - deployment-tools.yaml
