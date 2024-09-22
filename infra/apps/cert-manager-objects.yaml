@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-objects
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: infra/cert-manager-objects
+    repoURL: git@github.com:lbogdan/k8s-workshop-gitops.git
+    targetRevision: HEAD
