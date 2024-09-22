@@ -8,3 +8,4 @@ resources:
   - cert-manager.yaml
   - ingress-nginx.yaml
   - sealed-secrets.yaml
+  - rook-ceph.yaml

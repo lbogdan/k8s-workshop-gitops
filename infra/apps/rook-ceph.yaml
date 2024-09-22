@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rook-ceph
+  namespace: argocd
+spec:
+  destination:
+    namespace: rook-ceph
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    chart: rook-ceph
+    helm:
+      values: |-
+        nodeSelector:
+          node-role.kubernetes.io/control-plane: ""
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+            effect: NoSchedule
+        csi:
+          enableCephfsSnapshotter: false
+          enableNFSSnapshotter: false
+          enableRBDSnapshotter: false
+          logLevel: 1
+          sidecarLogLevel: 1
+          provisionerTolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+          # provisionerNodeAffinity: node-role.kubernetes.io/storage=
+          pluginTolerations:
+            - operator: Exists
+              effect: NoSchedule
+    repoURL: https://charts.rook.io/release
+    targetRevision: v1.14.10
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
