@@ -14,7 +14,7 @@ spec:
       values: |-
         controller:
           extraArgs:
-            publish-status-address: ${cpServer.publicIp}
+            publish-status-address: 49.12.108.250
           hostPort:
             enabled: true
           publishService:
