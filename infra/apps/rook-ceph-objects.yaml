@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-objects
+  name: rook-ceph-objects
   namespace: argocd
 spec:
   destination:
-    namespace: kube-system
+    namespace: rook-ceph
     server: https://kubernetes.default.svc
   project: infra
   source:
-    path: infra/cert-manager-objects
+    path: infra/rook-ceph-objects
     repoURL: git@github.com:lbogdan/k8s-workshop-gitops.git
     targetRevision: HEAD
   syncPolicy:

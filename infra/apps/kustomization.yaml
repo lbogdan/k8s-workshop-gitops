@@ -10,3 +10,4 @@ resources:
   - sealed-secrets.yaml
   - rook-ceph.yaml
   - cert-manager-objects.yaml
+  - rook-ceph-objects.yaml
