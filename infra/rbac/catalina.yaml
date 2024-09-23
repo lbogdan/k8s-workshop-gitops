@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: catalina
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: catalina
+  namespace: catalina
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: catalina-token
+  namespace: catalina
+  annotations:
+    kubernetes.io/service-account.name: catalina
+type: kubernetes.io/service-account-token
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: catalina
+  namespace: catalina
+subjects:
+- kind: ServiceAccount
+  name: catalina
+  namespace: catalina
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: catalina-view
+subjects:
+- kind: ServiceAccount
+  name: catalina
+  namespace: catalina
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: catalina-nodes-read
+subjects:
+- kind: ServiceAccount
+  name: catalina
+  namespace: catalina
+roleRef:
+  kind: ClusterRole
+  name: nodes-read
+  apiGroup: rbac.authorization.k8s.io

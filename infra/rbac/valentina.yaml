@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: valentina
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: valentina
+  namespace: valentina
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: valentina-token
+  namespace: valentina
+  annotations:
+    kubernetes.io/service-account.name: valentina
+type: kubernetes.io/service-account-token
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: valentina
+  namespace: valentina
+subjects:
+- kind: ServiceAccount
+  name: valentina
+  namespace: valentina
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: valentina-view
+subjects:
+- kind: ServiceAccount
+  name: valentina
+  namespace: valentina
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: valentina-nodes-read
+subjects:
+- kind: ServiceAccount
+  name: valentina
+  namespace: valentina
+roleRef:
+  kind: ClusterRole
+  name: nodes-read
+  apiGroup: rbac.authorization.k8s.io

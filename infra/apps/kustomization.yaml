@@ -12,3 +12,4 @@ resources:
   - cert-manager-objects.yaml
   - rook-ceph-objects.yaml
   - argocd.yaml
+  - rbac.yaml

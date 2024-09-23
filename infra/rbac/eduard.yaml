@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eduard
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eduard
+  namespace: eduard
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: eduard-token
+  namespace: eduard
+  annotations:
+    kubernetes.io/service-account.name: eduard
+type: kubernetes.io/service-account-token
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: eduard
+  namespace: eduard
+subjects:
+- kind: ServiceAccount
+  name: eduard
+  namespace: eduard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eduard-view
+subjects:
+- kind: ServiceAccount
+  name: eduard
+  namespace: eduard
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eduard-nodes-read
+subjects:
+- kind: ServiceAccount
+  name: eduard
+  namespace: eduard
+roleRef:
+  kind: ClusterRole
+  name: nodes-read
+  apiGroup: rbac.authorization.k8s.io

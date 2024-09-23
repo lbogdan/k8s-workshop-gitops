@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sabidea23
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sabidea23
+  namespace: sabidea23
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sabidea23-token
+  namespace: sabidea23
+  annotations:
+    kubernetes.io/service-account.name: sabidea23
+type: kubernetes.io/service-account-token
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: sabidea23
+  namespace: sabidea23
+subjects:
+- kind: ServiceAccount
+  name: sabidea23
+  namespace: sabidea23
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sabidea23-view
+subjects:
+- kind: ServiceAccount
+  name: sabidea23
+  namespace: sabidea23
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sabidea23-nodes-read
+subjects:
+- kind: ServiceAccount
+  name: sabidea23
+  namespace: sabidea23
+roleRef:
+  kind: ClusterRole
+  name: nodes-read
+  apiGroup: rbac.authorization.k8s.io

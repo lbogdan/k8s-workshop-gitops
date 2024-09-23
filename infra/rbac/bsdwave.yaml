@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bsdwave
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bsdwave
+  namespace: bsdwave
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bsdwave-token
+  namespace: bsdwave
+  annotations:
+    kubernetes.io/service-account.name: bsdwave
+type: kubernetes.io/service-account-token
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: bsdwave
+  namespace: bsdwave
+subjects:
+- kind: ServiceAccount
+  name: bsdwave
+  namespace: bsdwave
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: bsdwave-view
+subjects:
+- kind: ServiceAccount
+  name: bsdwave
+  namespace: bsdwave
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: bsdwave-nodes-read
+subjects:
+- kind: ServiceAccount
+  name: bsdwave
+  namespace: bsdwave
+roleRef:
+  kind: ClusterRole
+  name: nodes-read
+  apiGroup: rbac.authorization.k8s.io
